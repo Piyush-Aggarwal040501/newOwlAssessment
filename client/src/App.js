@@ -1,9 +1,10 @@
 import { useState,useEffect } from 'react';
 import { BrowserRouter, Routes, Route,useNavigate } from 'react-router-dom';
-import Login from './components/Login';
-import Home from './components/Home';
-import Enroll from './components/Enroll';
 
+import OurNavbar from './components/OurNavbar';
+import NewStudent from './pages/NewStudent';
+import AllStudents from './pages/AllStudents';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -11,15 +12,14 @@ function App() {
   
   
   return (
-    // <BrowserRouter>
-      
-    //   <Routes>
-    //     <Route path="/" element={<Login setUserData={setUserData} />} />
-    //     <Route path="/dashboard" element={<Home userData={userData} />} />
-    //     <Route path="/enroll" element={<Enroll userData={userData} setUserData={setUserData} />} />
-    //   </Routes>
-    // </BrowserRouter>
-    <div>piyush is here</div>
+    <BrowserRouter>
+      <OurNavbar />
+      <Routes>
+        <Route path="/" element={<AllStudents  />} />
+        <Route path="/new" element={<NewStudent />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
