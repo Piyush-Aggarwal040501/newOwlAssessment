@@ -1,12 +1,23 @@
 
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
+import { useLocation } from 'react-router-dom';
 
 import "../styles/general.css"
 import { server_base_url } from '../info';
-const NewStudent = () => {
+const EditStudent = () => {
+    const location = useLocation();
 
+    useEffect(() => {
+        const urlParams = new URLSearchParams(location.search);
+        const encodedData = urlParams.get('data');
+        if (encodedData) {
+        const decodedData = decodeURIComponent(encodedData);
+        const parsedData = JSON.parse(decodedData);
+        setDetails(parsedData);
+        }
+    }, [location.search]);
     const [details, setDetails] = useState({
-        firstName:"",lastName:"",course:"",studentID:"",email:"",phone:""
+        firstname:"",lastname:"",course:"",studentid:"",email:"",phone:""
     });
 
     const handleChange = (e)=>{
@@ -16,9 +27,9 @@ const NewStudent = () => {
         setDetails(newDetails);
     }
 
-    const addStudentApi = async ()=>{
+    const editStudentApi = async ()=>{
         try {
-            const response = await fetch(server_base_url + '/api/addStudent', { 
+            const response = await fetch(server_base_url + '/api/editStudent', { 
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -27,14 +38,12 @@ const NewStudent = () => {
             });
       
             if (response.status==200) {
-              alert("Student added successfully");
+              alert("details edited successfully");
                 setDetails({
-                    firstName:"",lastName:"",course:"",studentID:"",email:"",phone:""
+                    firstname:"",lastname:"",course:"",studentid:"",email:"",phone:""
                 })
             }
       
-            const result = await response.json();
-            console.log(response);
           } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
           }
@@ -42,19 +51,20 @@ const NewStudent = () => {
 
   return (
     <div id='newStudent' className='container'>
-        <h1>Adding New student</h1>
+        <h1>Edit student details</h1>
         <div className="form">
             <div className="box">
+                <label htmlFor="firstname">Student ID</label>
+                <input readOnly='true' type="text" placeholder='Enter Course name' value={details.studentid} name='studentid' onChange={handleChange} />
+            </div>
+
+            <div className="box">
                 <label htmlFor="firstname">First Name</label>
-                <input type="text" placeholder='Enter first name' value={details.firstName} name='firstName' onChange={handleChange} />
+                <input type="text" placeholder='Enter first name' value={details.firstname} name='firstname' onChange={handleChange} />
             </div>
             <div className="box">
                 <label htmlFor="firstname">Last Name</label>
-                <input type="text" placeholder='Enter last name' value={details.lastName} name='lastName' onChange={handleChange} />
-            </div>
-            <div className="box">
-                <label htmlFor="firstname">Student ID</label>
-                <input type="text" placeholder='Enter Course name' value={details.studentID} name='studentID' onChange={handleChange} />
+                <input type="text" placeholder='Enter last name' value={details.lastname} name='lastname' onChange={handleChange} />
             </div>
             <div className="box">
                 <label htmlFor="firstname">Course</label>
@@ -68,10 +78,10 @@ const NewStudent = () => {
                 <label htmlFor="firstname">Phone Number</label>
                 <input type="text" placeholder='Enter Phone Number' value={details.phone} name='phone' onChange={handleChange} />
             </div>
-            <div className="btn" onClick={addStudentApi}>Add Student</div>
+            <div className="btn" onClick={editStudentApi}>Edit Student Details</div>
         </div>
     </div>
   )
 }
 
-export default NewStudent
+export default EditStudent

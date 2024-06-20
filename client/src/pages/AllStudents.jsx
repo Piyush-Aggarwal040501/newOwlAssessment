@@ -1,61 +1,56 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import "../styles/general.css"
+
 import OurCard from '../components/OurCard'
+
+import { server_base_url } from '../info';
+
 const AllStudents = () => {
-    const students = [
-        {
-            id:"ifc123",
-          firstName: "John",
-          lastName: "Doe",
-          course: "Computer Science",
-          studentID: "CS2021001",
-          email: "john.doe@example.com",
-          phone: "555-1234"
-        },
-        {
-            id:"ifc123",
-          firstName: "Jane",
-          lastName: "Smith",
-          course: "Mechanical Engineering",
-          studentID: "ME2021002",
-          email: "jane.smith@example.com",
-          phone: "555-5678"
-        },
-        {
-            id:"ifc123",
-          firstName: "Alice",
-          lastName: "Johnson",
-          course: "Electrical Engineering",
-          studentID: "EE2021003",
-          email: "alice.johnson@example.com",
-          phone: "555-8765"
-        },
-        {
-            id:"ifc123",
-          firstName: "Bob",
-          lastName: "Brown",
-          course: "Civil Engineering",
-          studentID: "CE2021004",
-          email: "bob.brown@example.com",
-          phone: "555-4321"
-        },
-        {
-            id:"ifc123",
-          firstName: "Carol",
-          lastName: "Davis",
-          course: "Information Technology",
-          studentID: "IT2021005",
-          email: "carol.davis@example.com",
-          phone: "555-9101"
-        }
-      ];
+      const [students, setStudents] = useState([])
+      const studentDetails = async ()=>{
+        try {
+            const response = await fetch(server_base_url + '/api/allStudents');
       
+            if (response.status==200) {
+              const result = await response.json();
+              setStudents(result);
+            }
+      
+          } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+          }
+    }
+    useEffect(() => {
+      studentDetails();
+    }, [])
+
+    const deleteStudent = async (id)=>{
+      try {
+        const response = await fetch(server_base_url + '/api/deleteStudent', { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({id:id}),
+        });
+  
+        if (response.status==200) {
+          alert("Student deleted successfully");
+          const result = await response.json();
+          studentDetails();
+        }
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    }
+
+    
   return (
     <div id='allStudents' className='container'>
         <h1>Students Details</h1>
         <div className="allCards">
             {students.map((details,ind)=>(
-                <OurCard details={details} />
+                <OurCard details={details} deleteStudent={deleteStudent} />
             ))}
         </div>
     </div>

@@ -5,6 +5,7 @@ import OurNavbar from './components/OurNavbar';
 import NewStudent from './pages/NewStudent';
 import AllStudents from './pages/AllStudents';
 import Footer from './components/Footer';
+import EditStudent from './pages/EditStudent';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AllStudents  />} />
         <Route path="/new" element={<NewStudent />} />
+        <Route path="/editStudent" element={<EditStudent />} />
       </Routes>
       <Footer />
     </BrowserRouter>

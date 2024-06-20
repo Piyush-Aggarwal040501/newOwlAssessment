@@ -1,30 +1,32 @@
 import React from 'react'
 import { MdEdit,MdDelete } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
-const OurCard = ({details}) => {
+
+const OurCard = ({details,deleteStudent}) => {
+    const navigate = useNavigate();
+    const editStudent = ()=>{
+        const jsonParams = encodeURIComponent(JSON.stringify(details));
+        navigate(`/editStudent?data=${jsonParams}`)
+    }
   return (
     <div id='ourCard'>
-        
         <div className="icons">
-            <div className="edit">
+            <div className="edit" onClick={editStudent}>
                 <MdEdit />
             </div>
-            <div className="delete">
+            <div className="delete" onClick={()=>{deleteStudent(details.studentid)}}>
                 <MdDelete />
             </div>
             
         </div>
         <div className="line">
-            <div className="tag">Student ID - </div>
-            <div className="text">{details.studentID}</div>
-        </div>
-        <div className="line">
             <div className="tag">First Name - </div>
-            <div className="text">{details.firstName}</div>
+            <div className="text">{details.firstname}</div>
         </div>
         <div className="line">
             <div className="tag">Last Name - </div>
-            <div className="text">{details.lastName}</div>
+            <div className="text">{details.lastname}</div>
         </div>
         <div className="line">
             <div className="tag">Course - </div>
@@ -40,7 +42,7 @@ const OurCard = ({details}) => {
         </div>
 
         <div id="cardId">
-            {details.id}
+            {details.studentid}
         </div>
     </div>
   )

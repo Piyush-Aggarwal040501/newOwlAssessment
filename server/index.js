@@ -9,6 +9,10 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
+app.use(require('./router/addStudent'));
+app.use(require('./router/allStudents'));
+app.use(require('./router/editStudent'));
+app.use(require('./router/deleteStudent'));
 
 
 app.listen(PORT, () => {

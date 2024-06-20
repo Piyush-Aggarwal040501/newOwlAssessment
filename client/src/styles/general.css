@@ -1,3 +1,4 @@
+
 #newStudent{
     min-height: 100vh;
     display: flex;
@@ -46,7 +47,7 @@
 
 
 #allStudents{
-    
+    min-height: 100vh;
 }
 #allStudents .allCards{
    display: flex;
