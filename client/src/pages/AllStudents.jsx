@@ -44,14 +44,35 @@ const AllStudents = () => {
       }
     }
 
+    const [filter, setFilter] = useState('');
+
+    const handleFilterChange = (e) => {
+      setFilter(e.target.value);
+    };
     
   return (
     <div id='allStudents' className='container'>
         <h1>Students Details</h1>
+        <input id='searchBar'
+          type="text"
+          placeholder="Search here"
+          value={filter}
+          onChange={handleFilterChange}
+        />
         <div className="allCards">
-            {students.map((details,ind)=>(
-                <OurCard details={details} deleteStudent={deleteStudent} />
-            ))}
+        {students
+          .filter(
+            (details) =>
+              details.lastname.toLowerCase().includes(filter.toLowerCase()) ||
+              details.course.toLowerCase().includes(filter.toLowerCase()) ||
+              details.firstname.toLowerCase().includes(filter.toLowerCase()) ||
+              details.phone.toLowerCase().includes(filter.toLowerCase()) ||
+              details.studentid.toLowerCase().includes(filter.toLowerCase()) ||
+              details.email.toLowerCase().includes(filter.toLowerCase())
+          )
+          .map((filteredStudent, ind) => (
+            <OurCard key={ind} details={filteredStudent} deleteStudent={deleteStudent} />
+          ))}
         </div>
     </div>
   )
